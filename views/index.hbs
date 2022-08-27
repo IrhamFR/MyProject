@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        <link rel="stylesheet" href="/assets/css/style.css">
+        <Title>My Profile</Title>
+    </head>
+    
+    <body>
+        <nav class="navbar navbar-expand-lg fixed-top overflow-visible bg-light">
+            <div class="container-lg">
+                <a class="navbar-brand" href="/">
+                    <img src="/assets/img/logo.png" alt="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-3 me-auto mb-2 mb-lg-0">
+                        <li class="nav-item m-3">
+                            <a class="nav-link active fw-bold" aria-current="page" href="/"> Home </a>
+                        </li>
+                        {{#if isLogin}}
+                        <li class="nav-item m-3">
+                            <a class="nav-link" href="/project"> Add Project </a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                    <form class="d-flex ms-4" role="button">
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+                            <li class="nav-item m-3 ms-0">
+                                <a class="btn btn-transparent" href="/register"> Register </a>
+                            </li>
+                            <li class="nav-item m-3 ms-0">
+                                <a class="btn btn-transparent" href="/login"> Login </a>
+                            </li>
+                            <li class="nav-item my-3 ms-2 me-0">
+                                <a class="btn btn-dark" href="/contact-me"> Contact Me </a>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="card mb-4 container-content" style="max-width: 80%;" align="justify">
+            <div class="row g-1 mx-5">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title fs-3 fw-bold">Hi, welcome to my profile </h5>
+                        <p class="card-text pt-3">
+                            I am a self-taught person who likes field work, service work, even indoor work 
+                            related to computers such as surfing the Internet; Microsoft Office; AutoCAD; 
+                            Adobe Photoshop; Adobe Illustrator; and Corel Draw. Now I've tried to become 
+                            a Fullstack Developer to get a better job. Because the experience and expertise 
+                            gained independently is an honor for me.
+                        </p>
+                    </div>
+                    <div class="card-body mt-4 mb-4 me-5">
+                        <a href="https://wa.me/6285714660068" target="_blank" class="card-link p-3 mb-2 ctc bg-dark text-white">contact</a>
+                        <a href="#" class="card-link text-dark">download CV  <i class="fa fa-download"></i></a>
+                    </div>
+                    <div class="card-body me-5">
+                        <a href="https://www.linkedin.com/in/irham-f-rufdo/" target="_blank" class="me-2 card-i bg-dark text-white fa-brands fa-linkedin-in fa-2x"></a>
+                        <a href="#" target="_blank" class="mx-2 card-i bg-dark text-white fa-brands fa-instagram fa-2x"></a>
+                        <a href="#" target="_blank" class="p-2 mx-2 bg-dark text-white fa-brands fa-facebook fa-2x"></a>
+                        <a href="#" target="_blank" class="p-2 mx-2 bg-dark text-white fa-brands fa-twitter fa-2x"></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow m-auto" style="width: 75%">
+                        <img src="/assets/img/foto.jpg" class="card-img-top" alt="my image">
+                        <div class="card-body text-center">
+                        <p class="card-text mb-1 fs-4 fw-bold">Irham Fatriyand</p>
+                        <p class="card-text fw-normal">Fullstack Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr/>
+                
+        <div class="d-flex flex-column align-items-center justify-content-evenly bg-white">
+            <h1 class ="fs-2 fw-bold mt-5 mb-4">MY PROJECT</h1>
+            <div class="bg-transparent d-flex flex-wrap mb-4" id="project-list-render">
+                {{#each dataProject}}
+                <div class="mx-auto my-4">
+                    <div class="mx-5" style="width: 20rem">
+                        <div class="shadow rounded card">
+                            <div class="card-body">
+                                <img src="assets/img/look.jpg" class="card-img size-img" alt="image ex.">
+                            </div>
+                            <div class="card-body pt-0">
+                                <a href="/project-detail/{{@index}}" class="card-title text-dark fs-5 fw-bold">{{this.name}}</a>
+                                <p class="text-card text-black-50 mb-0">author: {{this.author}}</p>
+                                <p class="text-black-50">Duration: {{this.duration}}</p>
+                                <p class="text-card m-0">{{this.description}}</p>
+                                <div class="card-body hstack gap-3 text-black-50 ps-0 fs-3">
+                                    <div class="bg-transparent">
+                                        <i class="fa-brands fa-node-js"></i>
+                                    </div>
+                                    <div class="bg-transparent">
+                                        <i class="fa-brands fa-react"></i>
+                                    </div>
+                                    <div class="bg-transparent">
+                                        <i class="fa-brands fa-vuejs"></i>
+                                    </div>
+                                    <div class="bg-transparent">
+                                        <i class="fa-brands fa-angular"></i>
+                                    </div>
+                                </div>
+                                {{#if isLogin}}
+                                <div class="row gap-2 m-auto">
+                                    <a href="/update/{{@index}}" class="rounded btn btn-dark col">edit</a>
+                                    <a href="/delete/{{@index}}" class="rounded btn btn-danger border col">delete</a>
+                                </div>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="/assets/js/index.js"></script>
+</html>
