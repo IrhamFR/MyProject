@@ -35,14 +35,14 @@ app.get ('/', function (request, response) {
 
     let selectQuery = ''
     if (request.session.isLogin) {
-        selectQuery = `SELECT tb_projects.*, name
+        selectQuery = `SELECT tb_projects.*, tb_users.*
                         FROM tb_projects
                         INNER JOIN tb_users
                         ON tb_projects."authorID" = tb_users.id
                         WHERE tb_projects."authorID" = ${request.session.user.id}
                         ORDER BY id DESC`
     } else {
-        selectQuery = `SELECT tb_projects.*, name
+        selectQuery = `SELECT tb_projects.*, tb_users.*
                         FROM tb_projects
                         INNER JOIN tb_users
                         ON tb_projects."authorID" = tb_users.id
@@ -100,6 +100,8 @@ app.get ('/project-detail/:id', function (request, response) {
                     author: 'Irham Fatriyand',
                     start_date: getFullTime(item.start_date),
                     end_date: getFullTime(item.end_date),
+                    isLogin: request.session.isLogin,
+                    user: request.session.user,
                     duration: getDuration()
                 }
             })
@@ -114,7 +116,7 @@ app.get ('/project', function (request, response) {
 
     let isLogin = request.session.isLogin
     if (!isLogin) {
-        return res.redirect('/')
+        return response.redirect('/')
     }
     response.render ('project', {isLogin})
 })
@@ -123,22 +125,13 @@ app.post ('/project', function(request, response) {
 
     let { inputTitle: name, startDate: start_date, endDate: end_date, inputContent: description, checkedValue: technologies, imageContent: image } = request.body
 
-    let project = {
-        name,
-        start_date,
-        end_date,
-        description,
-        author: req.session.user.id,
-        image: req.file.filename
-    }
-
     db.connect((err,client,done)=>{
         if(err) {
             return response.redirect('/contact-me')
         }
 
-        let postQuery = `INSERT INTO tb_projects (name, start_date, end_date, description, image, "authorID") 
-                            VALUES ('${project.name}','${project.start_date}','${project.end_date}','${project.description}','${project.image}','${project.author}')`
+        let postQuery = `INSERT INTO tb_projects (name, start_date, end_date, description, image) 
+                            VALUES ('${name}','${start_date}','${end_date}','${description}','${image}')`
 
         client.query(postQuery, (err,result) =>{
             done()
@@ -178,7 +171,7 @@ app.get ('/update/:id', function (request, response) {
                 }
             })
 
-            response.render ('update', {data:dataProject[0]})
+            response.render ('update', {isLogin, data:dataProject[0]})
         })
     })
     
@@ -314,7 +307,12 @@ app.get('/logout', function (request, response) {
 })
 
 app.get ('/contact-me', function (request, response) {
-    response.render ('contact-me')
+    let isLogin = request.session.isLogin
+    if (!isLogin) {
+        return response.redirect('/')
+    }
+
+    response.render ('contact-me', {isLogin})
 })
 
 
