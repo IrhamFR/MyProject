@@ -31,12 +31,21 @@
                     </ul>
                     <form class="d-flex ms-4" role="button">
                         <ul class="navbar-nav mb-2 mb-lg-0">
+                            {{#if isLogin}}
                             <li class="nav-item m-3 ms-0">
-                                <a class="btn btn-transparent" href="/register"> Register </a>
+                                <a class="nav-link" > Hello, {{this.name}} </a>
                             </li>
                             <li class="nav-item m-3 ms-0">
-                                <a class="btn btn-transparent" href="/login"> Login </a>
+                                <a class="nav-link" href="/logout"> Logout </a>
                             </li>
+                            {{else}}
+                            <li class="nav-item m-3 ms-0">
+                                <a class="nav-link" href="/register"> Register </a>
+                            </li>
+                            <li class="nav-item m-3 ms-0">
+                                <a class="nav-link" href="/login"> Login </a>
+                            </li>
+                            {{/if}}
                             <li class="nav-item my-3 ms-2 me-0">
                                 <a class="btn btn-dark" href="/contact-me"> Contact Me </a>
                             </li>
@@ -47,10 +56,11 @@
         </nav>
 
         <div class="project-detail" action="">
-          <div class="ms-5 me-5">
+            
+            <div class="ms-5 me-5">
             <h1 class="card-title d-flex justify-content-center fs-2 fw-bold mb-4">{{data.name}}</h1>
             <div class="d-flex mb-4 gap-5">
-                <div class="col-des img-thumbnail">
+                <div class="col-des img-fluid">
                           <img src="https://img.freepik.com/free-vector/laptop-with-program-code-isometric-icon-software-development-programming-applications-dark-neon_39422-971.jpg" alt="detailpic">
                       </div>
                 <div class="bg-transparent">
@@ -58,10 +68,11 @@
                     <p class="detail-title m-0 mb-3">Duration</p>
                     <div class="m-1">
                         <p class="detail-icon"><i class="fa-solid fa-calendar-days"></i>{{data.start_date}} - {{data.end_date}}</p>
-                        <p class="detail-icon"><i class="fa-solid fa-clock"></i>{{data.duration}} week</p>
+                        <p class="detail-icon"><i class="fa-solid fa-clock"></i>{{data.duration}}</p>
                     </div>
                     <div class="mt-5">
                         <p class="detail-title">Technologies</p>
+                        {{data.technologies}}
                         <div class="d-flex flex-row">
                             <ul>
                                 <li class="detail-icon"><i class="fa-brands fa-node-js"></i>Node JS</li>
@@ -78,8 +89,10 @@
             <p style="text-align: justify;">
                 {{data.description}}
             </p>
+            
         </div>
       </div>
     </body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <script src="/assets/js/index.js"></script>
 </html>

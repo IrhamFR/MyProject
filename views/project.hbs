@@ -29,14 +29,23 @@
                         </li>
                         {{/if}}
                     </ul>
-                    <form class="d-flex" role="button">
+                    <form class="d-flex ms-4" role="button">
                         <ul class="navbar-nav mb-2 mb-lg-0">
+                            {{#if isLogin}}
                             <li class="nav-item m-3 ms-0">
-                                <a class="btn btn-transparent" href="/register"> Register </a>
+                                <a class="nav-link" > Hello, {{user.name}} </a>
                             </li>
                             <li class="nav-item m-3 ms-0">
-                                <a class="btn btn-transparent" href="/login"> Login </a>
+                                <a class="nav-link" href="/logout"> Logout </a>
                             </li>
+                            {{else}}
+                            <li class="nav-item m-3 ms-0">
+                                <a class="nav-link" href="/register"> Register </a>
+                            </li>
+                            <li class="nav-item m-3 ms-0">
+                                <a class="nav-link" href="/login"> Login </a>
+                            </li>
+                            {{/if}}
                             <li class="nav-item my-3 ms-2 me-0">
                                 <a class="btn btn-dark" href="/contact-me"> Contact Me </a>
                             </li>
@@ -96,7 +105,7 @@
                 <div class="mb-3">
                     <label for="input-project-image" class="form-label">Upload Image</label>
                     <img id="frame" src="" class="d-flex rounded img-fluid mb-1" style="width: 50%;" />
-                    <input class="form-control" type="file" id="input-project-image" onchange = "preview()">
+                    <input class="form-control" type="file" id="input-project-image" name="imageContent" onchange = "preview()">
                 </div>
                 <div class="d-flex mt-4">
                   <button type="submit" class="btn btn-sm btn-dark ms-auto ctc">Create Project</button>
