@@ -202,7 +202,7 @@ app.post('/update/:id', function(request, response){
 app.get('/delete/:id', function(request, response) {
     let isLogin = request.session.isLogin
     if (!isLogin) {
-        return res.redirect('/')
+        return response.redirect('/')
     }
 
     let id = request.params.id
