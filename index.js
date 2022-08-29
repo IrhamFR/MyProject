@@ -33,6 +33,21 @@ let isLogin = true
 
 app.get ('/', function (request, response) {
 
+    let selectQuery = ''
+    if (request.session.isLogin) {
+        selectQuery = `SELECT tb_projects.*, name
+                        FROM tb_projects
+                        INNER JOIN tb_users
+                        ON tb_projects."authorID" = tb_users.id
+                        WHERE tb_projects."authorID" = ${request.session.user.id}
+                        ORDER BY id DESC`
+    } else {
+        selectQuery = `SELECT tb_projects.*, name
+                        FROM tb_projects
+                        INNER JOIN tb_users
+                        ON tb_projects."authorID" = tb_users.id
+                        ORDER BY id DESC`
+    }
     db.connect((err,client,done)=>{
         if(err) {
             return response.redirect('/contact-me')
@@ -50,6 +65,8 @@ app.get ('/', function (request, response) {
                     ...item,
                     isLogin,
                     author: 'Irham Fatriyand',
+                    isLogin: request.session.isLogin,
+                    user: request.session.user,
                     duration: getDuration(new Date())
                 }
             })
@@ -95,23 +112,33 @@ app.get ('/project-detail/:id', function (request, response) {
 
 app.get ('/project', function (request, response) {
 
+    let isLogin = request.session.isLogin
     if (!isLogin) {
         return res.redirect('/')
     }
-    response.render ('project')
+    response.render ('project', {isLogin})
 })
 
 app.post ('/project', function(request, response) {
 
     let { inputTitle: name, startDate: start_date, endDate: end_date, inputContent: description, checkedValue: technologies, imageContent: image } = request.body
 
+    let project = {
+        name,
+        start_date,
+        end_date,
+        description,
+        author: req.session.user.id,
+        image: req.file.filename
+    }
+
     db.connect((err,client,done)=>{
         if(err) {
             return response.redirect('/contact-me')
         }
 
-        let postQuery = `INSERT INTO tb_projects (name, start_date, end_date, description, image) 
-                            VALUES ('${name}','${start_date}','${end_date}','${description}','${image}')`
+        let postQuery = `INSERT INTO tb_projects (name, start_date, end_date, description, image, "authorID") 
+                            VALUES ('${project.name}','${project.start_date}','${project.end_date}','${project.description}','${project.image}','${project.author}')`
 
         client.query(postQuery, (err,result) =>{
             done()
@@ -123,6 +150,11 @@ app.post ('/project', function(request, response) {
 })
 
 app.get ('/update/:id', function (request, response) {
+    let isLogin = request.session.isLogin
+    if (!isLogin) {
+        return response.redirect('/')
+    }
+
     let id = request.params.id
 
     db.connect((err,client,done)=>{
@@ -175,6 +207,10 @@ app.post('/update/:id', function(request, response){
 })
 
 app.get('/delete/:id', function(request, response) {
+    let isLogin = request.session.isLogin
+    if (!isLogin) {
+        return res.redirect('/')
+    }
 
     let id = request.params.id
     let delQuery = `DELETE FROM tb_projects WHERE id=${id}`
